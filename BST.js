@@ -85,6 +85,7 @@ export default class BST {
   // - if true, only unique keys will be allowed and throw an error if not unique
   getBST = ({ type, order, unique }) => {
     type = type || 'array'
+    const typeSlice = type !== 'array' ? type.slice(7) : 'kv'
     order = order || 'inOrder'
     unique = unique || false
     console.log(type, unique, order)
@@ -100,7 +101,7 @@ export default class BST {
       if (unique) {
         if (type === 'array') throw new Error('Unique is ignored if type is array.')
 
-        if (!this.checkKVUnique(type.slice(7))) {
+        if (!this.checkKVUnique(typeSlice)) {
           throw new Error('Keys/Values must be unique.')
         }
       }
@@ -108,22 +109,17 @@ export default class BST {
       const result = {
         object: type === 'array' ? [] : {},
         array: (k, v) => result.object.push([k, v]),
-        'object-kv': (k, v) => {
+        [`object-${typeSlice}`]: (k, v) => {
+          if (typeSlice === 'vk') {
+            ;[k, v] = [v, k]
+          }
+
           if (result.object[k] && !Array.isArray(result.object[k])) {
             result.object[k] = [result.object[k], v]
           } else if (result.object[k] && Array.isArray(result.object[k])) {
             result.object[k].push(v)
           } else {
             result.object[k] = v
-          }
-        },
-        'object-vk': (k, v) => {
-          if (result.object[v] && !Array.isArray(result.object[v])) {
-            result.object[v] = [result.object[v], k]
-          } else if (result.object[v] && Array.isArray(result.object[v])) {
-            result.object[v].push(k)
-          } else {
-            result.object[v] = k
           }
         },
       }

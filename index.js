@@ -44,18 +44,18 @@ createBST()
 // bst.printPostOrder()
 
 // {type = 'array', order = 'inOrder', unique = false}
-// console.log(
-//   bst.getBST({
-//     type: 'array',
-//     unique: false,
-//   })
-// )
+console.log(
+  bst.getBST({
+    type: 'object-kv', //try array or object-vk
+    unique: false,
+  })
+)
 
 // console.log([bst.root])
 // v
 
 // bst.printPostOrder()
-bst.printBST.inOrder()
-console.log('----------------------------')
-bst.swapKeyVal()
-bst.printBST.inOrder()
+// bst.printBST.inOrder()
+// console.log('----------------------------')
+// bst.swapKeyVal()                                            // swap key and value
+// bst.printBST.inOrder()
