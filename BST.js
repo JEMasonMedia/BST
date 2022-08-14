@@ -37,12 +37,7 @@ export default class BST {
   }
 
   invertBST = (node = this.root) => {
-    if (!node) {
-      return null
-    }
-
-    this.invertBST(node.left)
-    this.invertBST(node.right)
+    if (!node) return null
 
     if (node.left) {
       if (node.right) {
@@ -51,6 +46,9 @@ export default class BST {
     } else if (node.right) {
       ;[node.left, node.right] = [node.right, node.left]
     }
+
+    this.invertBST(node.left)
+    this.invertBST(node.right)
   }
 
   // swap key and val of the node
