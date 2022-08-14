@@ -110,9 +110,7 @@ export default class BST {
         object: type === 'array' ? [] : {},
         array: (k, v) => result.object.push([k, v]),
         [`object-${typeSlice}`]: (k, v) => {
-          if (typeSlice === 'vk') {
-            ;[k, v] = [v, k]
-          }
+          ;[k, v] = typeSlice === 'vk' ? [v, k] : [k, v]
 
           if (result.object[k] && !Array.isArray(result.object[k])) {
             result.object[k] = [result.object[k], v]
