@@ -46,13 +46,11 @@ export default class BST {
 
     if (node.left) {
       if (node.right) {
-        const temp = node.left
-        node.left = node.right
-        node.right = temp
+        ;[node.left, node.right] = [node.right, node.left]
       }
+    } else if (node.right) {
+      ;[node.left, node.right] = [node.right, node.left]
     }
-
-    return this.root
   }
 
   // swap key and val of the node

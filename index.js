@@ -1,9 +1,10 @@
 import { v4 as uuid } from 'uuid'
+import BetterRandom from './BetterRandom.js'
 import BST from './BST.js'
 
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
+// function getRndInteger(min, max) {
+//   return Math.floor(Math.random() * (max - min + 1)) + min
+// }
 
 let c = 0
 let bstArray = {}
@@ -12,7 +13,7 @@ for (var i = 65; i < 91; ++i) {
 
   const getRandom = () => {
     while (true) {
-      const random = getRndInteger(10000, 65535)
+      const random = BetterRandom(10000, 65535, 10000)
       if (!bstArray[random]) {
         return random
       }
@@ -44,18 +45,19 @@ createBST()
 // bst.printPostOrder()
 
 // {type = 'array', order = 'inOrder', unique = false}
-console.log(
-  bst.getBST({
-    type: 'object-kv', //try array or object-vk
-    unique: false,
-  })
-)
+// console.log(
+//   bst.getBST({
+//     type: 'object-kv', //try array or object-vk
+//     unique: false,
+//   })
+// )
 
-// console.log([bst.root])
+console.log([bst.root])
 // v
 
 // bst.printPostOrder()
-// bst.printBST.inOrder()
-// console.log('----------------------------')
+bst.printBST.inOrder()
+console.log('----------------------------')
 // bst.swapKeyVal()                                            // swap key and value
-// bst.printBST.inOrder()
+bst.invertBST()
+bst.printBST.inOrder()
