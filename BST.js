@@ -81,14 +81,13 @@ export default class BST {
   // - if true, only unique keys will be allowed and throw an error if not unique
   getBST = ({ type, order, unique }) => {
     type = type || 'array'
-    const typeSlice = type !== 'array' ? type.slice(7) : 'kv'
     order = order || 'inOrder'
     unique = unique || false
-    console.log(type, unique, order)
     try {
       if (!['array', 'object-kv', 'object-vk'].includes(type)) {
         throw new Error('Type must be one of: array, object-kv, object-vk.')
       }
+      const typeSlice = type !== 'array' ? type.slice(7) : 'kv'
 
       if (!['inOrder', 'preOrder', 'postOrder'].includes(order)) {
         throw new Error('Order must be one of: inOrder, preOrder, postOrder.')
@@ -107,7 +106,6 @@ export default class BST {
         array: (k, v) => result.object.push([k, v]),
         [`object-${typeSlice}`]: (k, v) => {
           ;[k, v] = typeSlice === 'vk' ? [v, k] : [k, v]
-
           if (result.object[k] && !Array.isArray(result.object[k])) {
             result.object[k] = [result.object[k], v]
           } else if (result.object[k] && Array.isArray(result.object[k])) {
@@ -118,90 +116,116 @@ export default class BST {
         },
       }
 
-      const traverse = {
-        inOrder: node => {
-          if (node !== null) {
-            traverse[order](node.left)
-            result[type](node.key, node.val)
-            traverse[order](node.right)
-          }
-        },
-        preOrder: node => {
-          if (node !== null) {
-            result[type](node.key, node.val)
-            traverse[order](node.left)
-            traverse[order](node.right)
-          }
-        },
-        postOrder: node => {
-          if (node !== null) {
-            traverse[order](node.left)
-            traverse[order](node.right)
-            result[type](node.key, node.val)
-          }
-        },
-      }
+      this.traverse(node => result[type](node.key, node.val), this.root, this.traverseOrder(order))
 
-      traverse[order](this.root)
       return result.object
     } catch (e) {
-      console.log(e)
+      console.log(e.message)
     }
   }
 
   // checks if all values are unique
   // - which is a switch for checking keys or values
-  checkKVUnique = which => {
+  checkKVUnique = typeSlice => {
     let unique = true
 
-    let test = this.getBST({
-      type: `object-${which}`,
-    })
+    const result = {
+      object: {},
+      [`object-${typeSlice}`]: (k, v) => {
+        ;[k, v] = typeSlice === 'vk' ? [v, k] : [k, v]
+        if (result.object[k] && !Array.isArray(result.object[k])) {
+          throw new Error('Keys/Values must be unique.')
+        } else {
+          result.object[k] = v
+        }
+      },
+    }
 
-    Object.keys(test).map(keyVal => {
-      if (!unique) return
-      else if (unique && Array.isArray(test[keyVal])) unique = false
-    })
+    this.traverse(node => result[`object-${typeSlice}`](node.key, node.val), this.root, this.traverseOrder('inOrder'))
 
     return unique
   }
 
-  printInOrder = () => {
-    const traverse = node => {
-      if (node !== null) {
-        traverse(node.left)
-        console.log('k: ', node.key, 'v: ', node.val)
-        traverse(node.right)
-      }
-    }
-    traverse(this.root)
-  }
-
-  printPreOrder = () => {
-    const traverse = node => {
-      if (node !== null) {
-        console.log('k: ', node.key, 'v: ', node.val)
-        traverse(node.left)
-        traverse(node.right)
-      }
-    }
-    traverse(this.root)
-  }
-
-  printPostOrder = () => {
-    const traverse = node => {
-      if (node !== null) {
-        traverse(node.left)
-        traverse(node.right)
-        console.log('k: ', node.key, 'v: ', node.val)
-      }
-    }
-    traverse(this.root)
-  }
-
   printBST = {
-    inOrder: () => this.printInOrder(),
-    preOrder: () => this.printPreOrder(),
-    postOrder: () => this.printPostOrder(),
+    func: order => {
+      this.traverse(
+        node => {
+          console.log('k: ', node.key, 'v: ', node.val)
+        },
+        this.root,
+        this.traverseOrder(order)
+      )
+    },
+    inOrder: function () {
+      this.func('inOrder')
+    },
+    preOrder: function () {
+      this.func('preOrder')
+    },
+    postOrder: function () {
+      this.func('postOrder')
+    },
+  }
+
+  // traverses the BST in the order specified
+  traverse = function (callBack, node, order) {
+    if (node !== null) {
+      // first this is the function itself
+      // second this refers to the BST because of the difference between regular functions and arrow functions
+      // same as usage in this.printBST........
+      this.tl = () => this.traverse(callBack, node.left, order)
+      this.cb = () => callBack(node)
+      this.tr = () => this.traverse(callBack, node.right, order)
+
+      for (const pointer of order) {
+        this[pointer]()
+      }
+    }
+  }
+
+  traverseOrder = order => {
+    switch (order) {
+      case 'inOrder':
+        return ['tl', 'cb', 'tr']
+      case 'preOrder':
+        return ['cb', 'tl', 'tr']
+      case 'postOrder':
+        return ['tl', 'tr', 'cb']
+      default:
+        return ['tl', 'cb', 'tr']
+    }
   }
 }
+
+// printInOrder = () => {
+//   const traverse = node => {
+//     if (node !== null) {
+//       traverse(node.left)
+//       console.log('k: ', node.key, 'v: ', node.val)
+//       traverse(node.right)
+//     }
+//   }
+//   traverse(this.root)
+// }
+
+// printPreOrder = () => {
+//   const traverse = node => {
+//     if (node !== null) {
+//       console.log('k: ', node.key, 'v: ', node.val)
+//       traverse(node.left)
+//       traverse(node.right)
+//     }
+//   }
+//   traverse(this.root)
+// }
+
+// printPostOrder = () => {
+//   const traverse = node => {
+//     if (node !== null) {
+//       traverse(node.left)
+//       traverse(node.right)
+//       console.log('k: ', node.key, 'v: ', node.val)
+//     }
+//   }
+//   traverse(this.root)
+// }

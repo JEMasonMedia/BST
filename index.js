@@ -29,35 +29,35 @@ const createBST = () => {
     bst.insertNode(node, bstArray[node])
   }
 
-  // bst.insert(String.fromCharCode(97) + uuid().slice(0, 8), 'nodeVal')
-  // bst.insert(String.fromCharCode(98) + uuid().slice(0, 8), 'nodeVal')
-  // bst.insert(String.fromCharCode(99) + uuid().slice(0, 8), 'nodeVal')
-  // bst.insert(String.fromCharCode(100) + uuid().slice(0, 8), 'nodeVal')
-  // bst.insert(String.fromCharCode(101) + uuid().slice(0, 8), 'nodeVal')
+  // bst.insertNode(String.fromCharCode(97) + uuid().slice(0, 8), 'nodeVal')
+  // bst.insertNode(String.fromCharCode(98) + uuid().slice(0, 8), 'nodeVal')
+  // bst.insertNode(String.fromCharCode(99) + uuid().slice(0, 8), 'nodeVal')
+  // bst.insertNode(String.fromCharCode(100) + uuid().slice(0, 8), 'nodeVal')
+  // bst.insertNode(String.fromCharCode(101) + uuid().slice(0, 8), 'nodeVal')
 }
 
 createBST()
 
-// bst.printInOrder()
+// bst.printBST.preOrder()
 // console.log('----------------------------')
-// bst.printPreOrder()
+// bst.printBST.inOrder()
 // console.log('----------------------------')
-// bst.printPostOrder()
+// bst.printBST.postOrder()
 
 // {type = 'array', order = 'inOrder', unique = false}
-// console.log(
-//   bst.getBST({
-//     type: 'object-kv', //try array or object-vk
-//     unique: false,
-//   })
-// )
+console.log(
+  bst.getBST({
+    type: 'object-vk', //try array or object-vk
+    unique: true,
+  })
+)
 
-console.log([bst.root])
+// console.log([bst.root])
 // v
 
 // bst.printPostOrder()
-bst.printBST.inOrder()
-console.log('----------------------------')
+// bst.printBST.inOrder()
+// console.log('----------------------------')
 // bst.swapKeyVal()                                            // swap key and value
-bst.invertBST()
-bst.printBST.inOrder()
+// bst.invertBST()
+// bst.printBST.inOrder()
