@@ -150,7 +150,10 @@ export default class BST {
     func: order => {
       this.traverse(
         node => {
-          console.log('k: ', node.key, 'v: ', node.val)
+          function pad(d) {
+            return d < 10 ? '0' + d.toString() : d.toString()
+          }
+          console.log(pad(++this.temp), 'k: ', node.key, 'v: ', node.val)
         },
         this.root,
         this.traverseOrder(order)
@@ -168,17 +171,16 @@ export default class BST {
   }
 
   // traverses the BST in the order specified
-  traverse = function (callBack, node, order) {
+  traverse = (callBack, node, order) => {
     if (node !== null) {
-      // first this is the function itself
-      // second this refers to the BST because of the difference between regular functions and arrow functions
-      // same as usage in this.printBST........
-      this.tl = () => this.traverse(callBack, node.left, order)
-      this.cb = () => callBack(node)
-      this.tr = () => this.traverse(callBack, node.right, order)
+      const func = {
+        tl: () => this.traverse(callBack, node.left, order),
+        cb: () => callBack(node),
+        tr: () => this.traverse(callBack, node.right, order),
+      }
 
       for (const pointer of order) {
-        this[pointer]()
+        func[pointer]()
       }
     }
   }

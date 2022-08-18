@@ -1,0 +1,286 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.all {
+  width: 100vw;
+  height: 100vh;
+  background-color: #252526;
+  color: whitesmoke;
+}
+
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: #000000;
+  color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 0, 0, 0.38);
+  position: relative;
+}
+
+.header-title-container {
+  width: 85%;
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+}
+
+.header-title-container h1 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+}
+
+.refresh-button-container {
+  width: 15%;
+  min-width: 210px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 0, 0, 0.38);
+}
+
+.refresh-button {
+  width: 150px;
+  height: 30px;
+  background-color: #000000;
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+.displayContainer {
+  width: 100%;
+  height: calc(100% - 60px);
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.leftBar::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+.leftBar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.leftBar::-webkit-scrollbar-thumb {
+  background-color: rgba(245, 245, 245, 0.4);
+  outline: 1px solid rgba(245, 245, 245, 0);
+  border-radius: 10px;
+}
+
+.leftBar {
+  background-color: rgba(255, 0, 0, 0.38);
+  width: 15%;
+  min-width: 210px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+
+.leftBar h4 {
+  font-size: 1.4rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.leftBar-Content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+}
+
+.leftBar-Item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.table {
+  color: whitesmoke;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.85rem;
+  width: 200px;
+}
+
+.table tbody {
+  width: 200px;
+}
+
+.table th {
+  background-color: rgba(255, 0, 0, 0.3);
+  color: whitesmoke;
+}
+
+.table td {
+  width: auto;
+  text-align: center;
+}
+
+.tBodyTr {
+  cursor: pointer;
+}
+
+.tBodyTr:hover {
+  box-shadow: 0 0 6px rgba(35, 173, 278, 1);
+}
+
+.tBodyTr:hover > td {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.nodeToTable {
+  box-shadow: 0 0 6px rgba(35, 173, 278, 1);
+}
+
+.nodeToTable > td {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.table tr:nth-child(odd) {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.table tr:nth-child(even) {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.visualizerWrapper::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+.visualizerWrapper::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.visualizerWrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(245, 245, 245, 0.4);
+  outline: 1px solid rgba(245, 245, 245, 0);
+  border-radius: 10px;
+}
+
+.visualizerWrapper {
+  width: 85%;
+  height: 100%;
+  overflow: auto;
+}
+
+.visualizer {
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.node {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: whitesmoke;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.85rem;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2.5em;
+  cursor: pointer;
+}
+
+.node:hover {
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: 0 0 6px rgba(35, 173, 278, 1);
+}
+
+.tableToNode {
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: 0 0 6px rgba(35, 173, 278, 1);
+}
+
+.spinnerWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.25);
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.loading {
+  width: 200px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: whitesmoke;
+  font-size: 1.4rem;
+  border-radius: 10px;
+}
+
+.spinner {
+  border: 6px solid white;
+  border-radius: 50%;
+  border-top: 6px solid rgba(255, 0, 0, 0.3);
+  border-right: 6px solid black;
+  border-bottom: 6px solid rgba(255, 0, 0, 0.3);
+  border-left: 6px solid black;
+  width: 70px;
+  height: 70px;
+  -webkit-animation: spin 1.2s linear infinite;
+  animation: spin 1.2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

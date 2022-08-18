@@ -1,63 +1,82 @@
-import { v4 as uuid } from 'uuid'
+// import { v4 as uuid } from 'uuid'
+import express from 'express'
+import morgan from 'morgan'
+import chalk from 'chalk'
+import hbs from 'express-handlebars'
+import dotenv from 'dotenv'
 import BetterRandom from './BetterRandom.js'
 import BST from './BST.js'
 
-// function getRndInteger(min, max) {
-//   return Math.floor(Math.random() * (max - min + 1)) + min
-// }
+import * as url from 'url'
+const __filename = url.fileURLToPath(import.meta.url)
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
-let c = 0
-let bstArray = {}
-for (var i = 65; i < 91; ++i) {
-  // bstArray[String.fromCharCode(91 - ++c) + uuid().slice(0, 8)] = String.fromCharCode(i)
+dotenv.config()
 
-  const getRandom = () => {
-    while (true) {
-      const random = BetterRandom(10000, 65535, 10000)
-      if (!bstArray[random]) {
-        return random
+const app = express()
+const morganMiddleware = morgan(function (tokens, req, res) {
+  return ['\n', chalk.hex('#ff4757').bold('🍄  Morgan --> '), chalk.hex('#34ace0').bold(tokens.method(req, res)), chalk.hex('#ffb142').bold(tokens.status(req, res)), chalk.hex('#ff5252').bold(tokens.url(req, res)), chalk.hex('#2ed573').bold(tokens['response-time'](req, res) + ' ms'), chalk.yellow(tokens['remote-addr'](req, res)), chalk.hex('#fffa65').bold('from ' + tokens.referrer(req, res))].join(' ')
+})
+app.use(morganMiddleware)
+const port = process.env.PORT
+
+let BSTobject = new BST()
+
+const createBST = () => {
+  const bstArray = {}
+  let curr = null
+  for (var i = 0; i < 40; ++i) {
+    const getString = () => {
+      let string = ''
+      for (var j = 0; j < 5; ++j) {
+        string += String.fromCharCode(BetterRandom(66, 90))
+      }
+      return string
+    }
+
+    const getRandom = () => {
+      while (true) {
+        const random = BetterRandom(10000, 65535)
+        if (!bstArray[random]) {
+          bstArray[random] = getString()
+          return [String(random), bstArray[random]]
+        }
       }
     }
-  }
 
-  bstArray[getRandom()] = String.fromCharCode(i)
+    let [key, val] = getRandom()
+    BSTobject.insertNode(key, val)
+  }
 }
 
-let bst = new BST()
-const createBST = () => {
-  for (let node in bstArray) {
-    bst.insertNode(node, bstArray[node])
-  }
-
-  // bst.insertNode(String.fromCharCode(97) + uuid().slice(0, 8), 'nodeVal')
-  // bst.insertNode(String.fromCharCode(98) + uuid().slice(0, 8), 'nodeVal')
-  // bst.insertNode(String.fromCharCode(99) + uuid().slice(0, 8), 'nodeVal')
-  // bst.insertNode(String.fromCharCode(100) + uuid().slice(0, 8), 'nodeVal')
-  // bst.insertNode(String.fromCharCode(101) + uuid().slice(0, 8), 'nodeVal')
-}
-
-createBST()
-
-// bst.printBST.preOrder()
-// console.log('----------------------------')
-// bst.printBST.inOrder()
-// console.log('----------------------------')
-// bst.printBST.postOrder()
-
-// {type = 'array', order = 'inOrder', unique = false}
-console.log(
-  bst.getBST({
-    type: 'object-vk', //try array or object-vk
-    unique: true,
-  })
+app.engine(
+  'hbs',
+  hbs.create({
+    defaultLayout: 'layout',
+    extname: 'hbs',
+  }).engine
 )
+app.set('view engine', '.hbs')
+app.use(express.static(__dirname + '/public'))
+app.set('views', './views')
 
-// console.log([bst.root])
-// v
+app.get('/', (req, res) => {
+  res.render('home')
+})
 
-// bst.printPostOrder()
-// bst.printBST.inOrder()
-// console.log('----------------------------')
-// bst.swapKeyVal()                                            // swap key and value
-// bst.invertBST()
-// bst.printBST.inOrder()
+app.get('/bst', (req, res) => {
+  BSTobject = new BST()
+  createBST()
+  // BSTobject.printBST.inOrder()
+  // console.log([BSTobject.root])
+
+  res.send(BSTobject.root)
+})
+
+app
+  .listen(port, () => {
+    console.log(`listening on port ${port}`)
+  })
+  .on('error', err => {
+    console.log(err)
+  })

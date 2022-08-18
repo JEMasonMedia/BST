@@ -9,5 +9,5 @@ export default function BetterRandom(min, max, depth = 1000) {
     accumulator.push(randomNumberInRange(min, max))
   }
 
-  return accumulator[randomNumberInRange(0, accumulator.length)]
+  return accumulator[randomNumberInRange(0, accumulator.length - 1)]
 }
