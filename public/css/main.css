@@ -54,10 +54,31 @@
   background-color: rgba(255, 0, 0, 0.38);
 }
 
-.refresh-button {
+.refreshButton {
   width: 150px;
   height: 30px;
   background-color: #000000;
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+.reset-map-container {
+  width: 15%;
+  min-width: 210px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #000000;
+}
+
+.resetMap {
+  width: 150px;
+  height: 30px;
+  background-color: rgba(255, 0, 0, 0.38);
   color: whitesmoke;
   cursor: pointer;
 }
@@ -143,18 +164,16 @@
   cursor: pointer;
 }
 
-.tBodyTr:hover {
-  box-shadow: 0 0 6px rgba(35, 173, 278, 1);
+.highlightRoot {
+  color: rgb(0, 255, 0);
 }
 
-.tBodyTr:hover > td {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
+.tBodyTr:hover,
 .nodeToTable {
   box-shadow: 0 0 6px rgba(35, 173, 278, 1);
 }
 
+.tBodyTr:hover > td,
 .nodeToTable > td {
   background-color: rgba(0, 0, 0, 0.1);
 }
@@ -167,34 +186,54 @@
   background-color: rgba(255, 0, 0, 0.2);
 }
 
-.visualizerWrapper::-webkit-scrollbar {
+.mapWrapper::-webkit-scrollbar {
   width: 0.5em;
 }
 
-.visualizerWrapper::-webkit-scrollbar-track {
+.mapWrapper::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-.visualizerWrapper::-webkit-scrollbar-thumb {
+.mapWrapper::-webkit-scrollbar-thumb {
   background-color: rgba(245, 245, 245, 0.4);
   outline: 1px solid rgba(245, 245, 245, 0);
   border-radius: 10px;
 }
 
-.visualizerWrapper {
+.mapWrapper {
   width: 85%;
   height: 100%;
-  overflow: auto;
-}
-
-.visualizer {
-  width: auto;
-  height: auto;
+  overflow: hidden;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  cursor: grab;
+}
+
+.map {
+  min-width: 10000px;
+  min-height: 10000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+}
+
+.nodeContainer {
+  width: 100%;
+  height: 100%;
   position: relative;
+  margin-top: -800px;
+}
+
+.nodeCanvas {
+  position: absolute;
+  z-index: -1;
+  margin-top: -800px;
+  background-color: red;
 }
 
 .node {
@@ -213,13 +252,15 @@
   text-align: center;
   padding: 2.5em;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: absolute;
+  z-index: 1;
 }
 
-.node:hover {
-  border: 1px solid rgb(0, 0, 0);
-  box-shadow: 0 0 6px rgba(35, 173, 278, 1);
-}
-
+.node:hover,
 .tableToNode {
   border: 1px solid rgb(0, 0, 0);
   box-shadow: 0 0 6px rgba(35, 173, 278, 1);

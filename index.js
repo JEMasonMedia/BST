@@ -15,7 +15,7 @@ dotenv.config()
 
 const app = express()
 const morganMiddleware = morgan(function (tokens, req, res) {
-  return ['\n', chalk.hex('#ff4757').bold('🍄  Morgan --> '), chalk.hex('#34ace0').bold(tokens.method(req, res)), chalk.hex('#ffb142').bold(tokens.status(req, res)), chalk.hex('#ff5252').bold(tokens.url(req, res)), chalk.hex('#2ed573').bold(tokens['response-time'](req, res) + ' ms'), chalk.yellow(tokens['remote-addr'](req, res)), chalk.hex('#fffa65').bold('from ' + tokens.referrer(req, res))].join(' ')
+  return ['\n', chalk.hex('#ff4757').visible('🍄  Morgan --> '), chalk.hex('#34ace0').visible(tokens.method(req, res)), chalk.hex('#ffb142').visible(tokens.status(req, res)), chalk.hex('#ff5252').visible(tokens.url(req, res)), chalk.hex('#2ed573').visible(tokens['response-time'](req, res) + ' ms'), chalk.yellow(tokens['remote-addr'](req, res)), chalk.hex('#fffa65').visible('from ' + tokens.referrer(req, res))].join(' ')
 })
 app.use(morganMiddleware)
 const port = process.env.PORT
@@ -24,8 +24,8 @@ let BSTobject = new BST()
 
 const createBST = () => {
   const bstArray = {}
-  let curr = null
-  for (var i = 0; i < 40; ++i) {
+
+  for (var i = 0; i < 20; ++i) {
     const getString = () => {
       let string = ''
       for (var j = 0; j < 5; ++j) {
@@ -65,11 +65,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/bst', (req, res) => {
+  if (BSTobject.root === null) createBST()
+  res.send(BSTobject.root)
+})
+
+app.get('/bst/create', (req, res) => {
   BSTobject = new BST()
   createBST()
-  // BSTobject.printBST.inOrder()
-  // console.log([BSTobject.root])
-
   res.send(BSTobject.root)
 })
 

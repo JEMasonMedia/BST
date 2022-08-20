@@ -1,7 +1,16 @@
+// added a right/left/root property to the node class
+// - denoted as R, L, ROOT
+// - this will be handy for higher level processing of the BST
+// - easy way for the node itself to know if it is right or left of parent, or root
+// - this will be processed by insertNode, deleteNode, and balancing
 class node {
-  constructor(key, val) {
+  constructor(key, val, parent, rlr, dpt) {
     this.key = key
     this.val = val
+    this.parent = parent // key to parent node
+    this.rlr = rlr
+    this.dpt = dpt // depth of the node
+    this.clr = null // red or black - used for RB balancing -- will use boolean once implemented
     this.left = null
     this.right = null
   }
@@ -12,27 +21,28 @@ export default class BST {
     this.root = null
   }
 
-  #insert = (key, val, currNode) => {
+  #insert = (key, val, currNode, dpt) => {
+    ++dpt
     if (key > currNode.key) {
       if (currNode.right === null) {
-        currNode.right = new node(key, val)
+        currNode.right = new node(key, val, currNode.key, 'R', dpt - 1)
       } else {
-        this.#insert(key, val, currNode.right)
+        this.#insert(key, val, currNode.right, dpt)
       }
     } else if (key < currNode.key) {
       if (currNode.left === null) {
-        currNode.left = new node(key, val)
+        currNode.left = new node(key, val, currNode.key, 'L', dpt - 1)
       } else {
-        this.#insert(key, val, currNode.left)
+        this.#insert(key, val, currNode.left, dpt)
       }
     }
   }
 
   insertNode = (key, val) => {
     if (this.root === null) {
-      this.root = new node(key, val)
+      this.root = new node(key, val, null, 'ROOT', 0)
     } else {
-      this.#insert(key, val, this.root)
+      this.#insert(key, val, this.root, 1)
     }
   }
 
@@ -170,13 +180,37 @@ export default class BST {
     },
   }
 
-  // traverses the BST in the order specified
+  heightBST = node => {
+    if (node == null) return 0
+    else {
+      let lHeight = height(node.left)
+      let rHeight = height(node.right)
+      if (lHeight > rHeight) return lHeight + 1
+      else return rHeight + 1
+    }
+  }
+
+  breadthTraverse = (callBack, node) => {
+    const runCB = (node, level) => {
+      if (node == null) return
+      if (level == 1) callBack(node)
+      else if (level > 1) {
+        runCB(node.left, level - 1)
+        runCB(node.right, level - 1)
+      }
+    }
+
+    let h = this.heightBST(node)
+    for (let i = 1; i <= h; i++) runCB(node, i)
+  }
+
   traverse = (callBack, node, order) => {
     if (node !== null) {
       const func = {
-        tl: () => this.traverse(callBack, node.left, order),
+        tl: () => traverse(callBack, node.left, order),
         cb: () => callBack(node),
-        tr: () => this.traverse(callBack, node.right, order),
+        tr: () => traverse(callBack, node.right, order),
+        bf: () => breadthTraverse(callBack, node),
       }
 
       for (const pointer of order) {
@@ -193,6 +227,8 @@ export default class BST {
         return ['cb', 'tl', 'tr']
       case 'postOrder':
         return ['tl', 'tr', 'cb']
+      case 'breadthFirst':
+        return ['bf']
       default:
         return ['tl', 'cb', 'tr']
     }

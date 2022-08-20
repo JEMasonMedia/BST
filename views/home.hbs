@@ -4,17 +4,28 @@
       <h1>Red Black Binary Search Tree</h1>
     </div>
     <div class='refresh-button-container'>
-      <button id='refresh-button' class='refresh-button'>Refresh Data</button>
+      <button id='refreshBSTButton' class='refreshButton'>Refresh Data</button>
+    </div>
+    <div class='reset-map-container'>
+      <button id='resetMapButton' class='resetMap'>Reset Map</button>
     </div>
   </header>
 
   <div class='displayContainer'>
     <div class='leftBar'>
       <h4>Nodes</h4>
-      <div id='leftBar-Content' class='leftBar-content'></div>
+      <div id='leftBar-Content' class='leftBar-content'>
+        <table class='table'>
+          <thead><tr><th>Dpt-Rlr</th><th>Key</th><th>Value</th></tr></thead>
+          <tbody id='leftBarTableBody'></tbody>
+        </table>
+      </div>
     </div>
-    <div class='visualizerWrapper'>
-      <div id='visualizer' class='visualizer'></div>
+    <div class='mapWrapper'>
+      <div id='map' class='map'>
+        <div id='nodeContainer' class='nodeContainer'>
+        </div>
+      </div>
     </div>
   </div>
 
