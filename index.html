@@ -1,0 +1,72 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link id="favicon" rel="icon" type="image/x-icon" href="/img/favicon-light.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+    <script defer src="./public/js/cytoscape.js"></script>
+    <script defer src="./public/js/dagre.js"></script>
+    <script defer src="./public/js/cytoscape-dagre.js"></script>
+    <script defer src="./public/js/cytoscape-cose-bilkent.js"></script>
+
+    <link href="./public/css/main.css" rel="stylesheet" type="text/css" />
+    <script src="./public/js/BST.js" defer></script>
+    <script src="./public/js/BetterRandom.js" defer></script>
+    <script src="./public/js/main2.js" defer></script>
+    <title>RB BST</title>
+  </head>
+  <body>
+    <div class="all">
+      <header class="header">
+        <div class="header-title-container">
+          <h1>Red Black Binary Search Tree</h1>
+        </div>
+        <div class="refresh-button-container">
+          <button id="refreshBSTButton" class="refreshButton">Refresh Data</button>
+        </div>
+        <div class="reset-map-container">
+          <button id="resetMapButton" class="resetMap">Reset Map</button>
+        </div>
+      </header>
+
+      <div class="displayContainer">
+        <div class="leftBar">
+          <div class="quantity-select-container">
+            <label for="nodes">Choose number of nodes: </label>
+            <select name="nodes" id="numberNodesSelect" class="numberNodesSelect">
+              <option value="20">20</option>
+              <option value="40">40</option>
+              <option value="80">80</option>
+              <option value="120">120</option>
+              <option value="1000">1000</option>
+            </select>
+          </div>
+          <div id="leftBar-Content" class="leftBar-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Dpt-Rlr</th>
+                  <th>Key</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="leftBarTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mapWrapper">
+          <div id="map" class="map"></div>
+        </div>
+      </div>
+
+      <div id="spinnerWrapper" class="spinnerWrapper">
+        <div class="loading">Loading...</div>
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -13,7 +13,16 @@
 
   <div class='displayContainer'>
     <div class='leftBar'>
-      <h4>Nodes</h4>
+      <div class='quantity-select-container'>
+        <label for='nodes'>Choose number of nodes: </label>
+        <select name='nodes' id='numberNodesSelect' class='numberNodesSelect'>
+          <option value='20'>20</option>
+          <option value='40'>40</option>
+          <option value='80'>80</option>
+          <option value='120'>120</option>
+          <option value='1000'>1000</option>
+        </select>
+      </div>
       <div id='leftBar-Content' class='leftBar-content'>
         <table class='table'>
           <thead><tr><th>Dpt-Rlr</th><th>Key</th><th>Value</th></tr></thead>
@@ -23,8 +32,8 @@
     </div>
     <div class='mapWrapper'>
       <div id='map' class='map'>
-        <div id='nodeContainer' class='nodeContainer'>
-        </div>
+        {{! <div id='nodeContainer' class='nodeContainer'>
+        </div> }}
       </div>
     </div>
   </div>
@@ -33,5 +42,4 @@
     <div class='loading'>Loading...</div>
     <div class='spinner'></div>
   </div>
-
 </div>

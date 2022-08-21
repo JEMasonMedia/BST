@@ -1,12 +1,11 @@
 let favicon = document.getElementById('favicon')
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  favicon.href = './img/favicon-light.ico'
+  favicon.href = './public/img/favicon-light.png'
 } else {
-  favicon.href = './img/favicon-dark.ico'
+  favicon.href = './public/img/favicon-dark.png'
 }
 favicon = undefined
 
-let BST = null
 const leftBarTableBody = document.getElementById('leftBarTableBody')
 const Map = document.getElementById('map')
 const numberNodesSelect = document.getElementById('numberNodesSelect')
@@ -19,7 +18,36 @@ spinnerWrapper.addEventListener('click', e => {
 })
 
 let cytoscapeMap = null
+let BSTobject = null
+
 numberNodes = numberNodesSelect.value
+
+const createBST = () => {
+  const bstArray = {}
+
+  for (var i = 0; i < numberNodes; ++i) {
+    const getString = () => {
+      let string = ''
+      for (var j = 0; j < 5; ++j) {
+        string += String.fromCharCode(BetterRandom(66, 90))
+      }
+      return string
+    }
+
+    const getRandom = () => {
+      while (true) {
+        const random = BetterRandom(10000, 65535)
+        if (!bstArray[random]) {
+          bstArray[random] = getString()
+          return [String(random), bstArray[random]]
+        }
+      }
+    }
+
+    let [key, val] = getRandom()
+    BSTobject.insertNode(key, val)
+  }
+}
 
 const height = node => {
   if (node == null) return 0
@@ -100,11 +128,12 @@ const createVisualNode = (node, elements) => {
 }
 
 const reloadBST = async () => {
-  spinnerWrapper.style.visibility = 'visible'
+  spinnerWrapper.style.visible = 'visible'
   leftBarTableBody.innerHTML = ''
-  // nodeContainer.innerHTML = ''
-  const res = await fetch('http://localhost:3406/bst')
-  BST = await res.json()
+
+  BSTobject = new BST()
+  createBST()
+  const bst = BSTobject.root
 
   let selectors = [
     {
@@ -142,18 +171,14 @@ const reloadBST = async () => {
     edges: [],
   }
 
-  // let index = 0
-  // let parentNode = null
   traverse(
     node => {
       fillTable(node)
       createVisualNode(node, elements)
     },
-    BST,
+    bst,
     traverseOrder('breadthFirst')
   )
-
-  console.log(selectors, elements)
 
   cytoscapeMap = cytoscape({
     container: Map,
@@ -175,7 +200,7 @@ const reloadBST = async () => {
   })
 
   // createHoverLinks()
-  spinnerWrapper.style.visibility = 'hidden'
+  spinnerWrapper.style.visible = 'hidden'
 }
 
 ;(async () => {

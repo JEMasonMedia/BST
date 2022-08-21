@@ -64,6 +64,10 @@ app.get('/', (req, res) => {
   res.render('home')
 })
 
+app.get('/test', (req, res) => {
+  res.render('test')
+})
+
 app.get('/bst', (req, res) => {
   if (BSTobject.root === null) createBST()
   res.send(BSTobject.root)
